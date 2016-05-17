@@ -8,7 +8,7 @@ AV.init({
   appId:'uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap',
   appKey:'kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww',
   masterKey:'o9sd6j9d30kukvljnhpwv5in73ljrmg95m5csl588917kp8s'});
-  
+
 var Todo = AV.Object.extend('Todo');
 
 describe('Object', function () {
@@ -71,6 +71,10 @@ describe('Object', function () {
 
       it('fetch with include keys', function (done) {
         code_object_fetch_with_keys(done);
+      });
+
+      it('fetch with fetchWhenSave = true', function (done) {
+        fetchWhenSave_test(done);
       });
     });
 
@@ -330,6 +334,17 @@ function code_object_fetch_with_keys(done){
   }, (error) =>{
     if(error) throw error;
     done();
+  });
+}
+
+function fetchWhenSave_test(done){
+  let todo:AV.Object = AV.Object.createWithoutData('Todo', '57328ca079bc44005c2472d0');
+  todo.set('title','huhna');
+  todo.fetchWhenSave(false);
+  todo.save<AV.Object>().then((updatedTodo)=>{
+    done();
+  },(error)=>{
+
   });
 }
 
