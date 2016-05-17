@@ -836,7 +836,6 @@ declare module "avoscloud-sdk" {
      */
     function init(options:any):void;
     function useAVCloudUS();
-
   }
 
   export = AV;

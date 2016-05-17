@@ -18,6 +18,9 @@ AV.init({
 
   function code_send_sms_code_for_loginOrSignup(done){
     AV.Cloud.requestSmsCode('18612438929').then((success)=>{
+      if(success) {
+        done();
+      }
     },(error)=>{
     });
 
