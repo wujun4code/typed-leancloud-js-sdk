@@ -664,6 +664,7 @@ declare module "avoscloud-sdk" {
         getEmail(): string;
         setEmail(email: string, options?: SuccessFailureOptions): boolean;
 
+        setMobilePhoneNumber(mobilePhoneNumber:string,options?: SuccessFailureOptions):boolean;
         getMobilePhoneNumber():string;
 
         getUsername(): string;
@@ -834,6 +835,7 @@ declare module "avoscloud-sdk" {
      *options : {appId:'',appKey:'',masterKey:''}
      */
     function init(options:any):void;
+    function useAVCloudUS();
 
   }
 

@@ -1,8 +1,11 @@
 /// <reference path="../typings/main.d.ts" />
 /// <reference path="../index.d.ts"/>
+/// <reference path="utils.ts"/>
 
 import * as AV from 'avoscloud-sdk'
 import * as chai from 'chai';
+
+import * as utils from "./utils";
 
 AV.init({
   appId:'uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap',
@@ -14,20 +17,49 @@ AV.init({
     it('AV.User.signUp', function (done) {
       code_user_signUp_with_username_and_password(done);
     });
+
+    it('AV.User.signUp duplicate users with same mobilePhoneNumber', function (done) {
+      duplicate_users_with_same_mobilePhoneNumber(done);
+    });
+
   });
 
 function code_user_signUp_with_username_and_password(done){
   let user : AV.User = new AV.User();// 新建 AVUser 对象实例
-  user.setUsername('Tom');
+  user.setUsername(newUsername());
   user.setPassword('cat!@#123');
-  user.setEmail('tom@leancloud.cn');
+  user.setEmail(newEmail());
 
   user.signUp<AV.User>().then((loginedUser)=>{
-    console.log(loginedUser);
     chai.assert.isNotNull(loginedUser.id);
     done();
   },(error=>{
+    if(error) throw error;
+  }));
+}
 
+function duplicate_users_with_same_mobilePhoneNumber(done){
+  let user1 : AV.User = new AV.User();// 新建 AVUser 对象实例
+  user1.setUsername(newUsername());
+  user1.setPassword('cat!@#123');
+  user1.setEmail(newEmail());
+  let mobile =  utils.newMobilePhoneNumber();
+  user1.setMobilePhoneNumber(mobile);
+
+  user1.signUp<AV.User>().then((loginedUser)=>{
+    let user2 : AV.User = new AV.User();// 新建 AVUser 对象实例
+    user2.setUsername(newUsername());
+    user2.setPassword('cat!@#123');
+    user2.setEmail(newEmail());
+    user2.setMobilePhoneNumber(mobile);
+
+    user2.signUp<AV.User>().then((loginedUser)=>{
+    },(error=>{
+      chai.assert.isNotNull(error);
+      done();
+    }));
+  },(error=>{
+    if(error) throw error;
   }));
 }
 
@@ -129,4 +161,11 @@ function code_current_user_logout(done){
 
 function code_query_user(done){
   let query : AV.Query = new AV.Query('_User');
+}
+
+export function newUsername(): string {
+  return utils.randomString(10);
+}
+export function newEmail():string{
+  return utils.randomString(8).concat('@leancloud.cn');
 }
