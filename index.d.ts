@@ -1,9 +1,9 @@
-// Type definitions for avoscloud-sdk 0.6.10
+// Type definitions for leancloud-jssdk 1.0.0-rc8
 // Project: https://leancloud.cn/
 // Definitions by: Wu Jun <http://leancloud.cn>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module "avoscloud-sdk" {
+declare module "leancloud-jssdk" {
   namespace AV{
 
     var applicationId: string;
@@ -182,7 +182,7 @@ declare module "avoscloud-sdk" {
         destroy<T>():Promise<T>;
         metaData():any;
         metaData(metaKey:string):any;
-        metaData(metaKey:string,metaValue:any);
+        metaData(metaKey:string,metaValue:any):any;
         name(): string;
         ownerId():string;
         url(): string;
@@ -652,7 +652,7 @@ declare module "avoscloud-sdk" {
         static requestPasswordReset<T>(email: string, options?: SuccessFailureOptions): Promise<T>;
         static requestPasswordResetBySmsCode<T>(mobilePhone:string, options?:SuccessFailureOptions):Promise<T>;
         static resetPasswordBySmsCode<T>(code:string, password:string, options?:SuccessFailureOptions):Promise<T>;
-        static verifyMobilePhone(code, options?:SuccessFailureOptions);
+        static verifyMobilePhone<T>(code:string, options?:SuccessFailureOptions):Promise<T>;
         signUp<T>(attrs?: any, options?: SuccessFailureOptions): Promise<T>;
         logIn<T>(options?: SuccessFailureOptions): Promise<T>;
         fetch<T>(options?: SuccessFailureOptions): Promise<T>;
@@ -835,7 +835,7 @@ declare module "avoscloud-sdk" {
      *options : {appId:'',appKey:'',masterKey:''}
      */
     function init(options:any):void;
-    function useAVCloudUS();
+    function useAVCloudUS():void;
   }
 
   export = AV;

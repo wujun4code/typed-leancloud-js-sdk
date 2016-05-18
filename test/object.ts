@@ -1,7 +1,7 @@
-/// <reference path="../typings/main.d.ts" />
+/// <reference path="../typings/index.d.ts" />
 /// <reference path="../index.d.ts"/>
 
-import * as AV from 'avoscloud-sdk'
+import * as AV from 'leancloud-jssdk'
 import * as chai from 'chai';
 
 AV.init({

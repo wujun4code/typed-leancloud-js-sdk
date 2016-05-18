@@ -10,12 +10,11 @@
   "author": "Wu Jun",
   "license": "MIP",
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "chai": "^3.5.0"
   },
   "dependencies": {
-    "avoscloud-sdk": "^1.0.0-rc8",
-    "mocha": "^2.4.5",
-    "chai": "^3.5.0",
+    "leancloud-jssdk": "1.0.0-rc8",
     "typescript": "^1.8.10"
   },
   "engines": {
