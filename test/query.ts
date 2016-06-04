@@ -1,7 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
-/// <reference path="../index.d.ts"/>
 
-import * as AV from 'leancloud-jssdk'
+import * as AV from 'leancloud-jssdk';
 import * as chai from 'chai';
 
 AV.init({
@@ -36,7 +35,45 @@ describe('Query', function () {
       code_query_with_regular_expression(done);
     });
   });
+
+  describe('#array', function () {
+    // it('save reminders', function (done) {
+    //     save_reminders(done);
+    // });
+    it('query reminders contains 2011-11-11 08:30', function (done) {
+      code_query_array_contains_using_equalsTo(done);
+    });
+
+    it('query foo contains [1,2]', function (done) {
+      code_query_array_contains_all(done);
+    });
+  });
+
 });
+
+function code_query_array_contains_using_equalsTo(done){
+  let query: AV.Query= new AV.Query('Todo');
+
+  let reminderFilter: Array<Date> = [new Date('2015-11-11 08:30:00')];
+  query.containsAll('reminders',reminderFilter);
+
+  // 也可以使用 equals 接口实现这一需求
+  let targetDateTime : Date =  new Date('2015-11-11 08:30:00');
+  query.equalTo('reminders',targetDateTime);
+
+  query.find<AV.Object []>().then(
+    (results) =>{
+      console.log(results.length);
+      for(let r of results){
+        console.log(r.id);
+      }
+      done();
+  },(error)=>{
+    if(error) throw error;
+    done();
+  });
+}
+
 
 function code_query_array_contains_all(done){
   let query: AV.Query= new AV.Query('Boo');
@@ -45,6 +82,7 @@ function code_query_array_contains_all(done){
   query.find<AV.Object []>().then(
     (results) =>{
       for(let r of results){
+        console.log(r.id);
       }
       done();
   },(error)=>{
@@ -62,6 +100,24 @@ function code_get_todo_by_objectId(done){
     if(error) throw error;
     done();
   });
+}
+
+function save_reminders(done){
+  let reminder1: Date = new Date('2015-11-11 08:30:00');
+  // let reminder2: Date = new Date('2015-11-11 09:30:00');
+  // let reminder3: Date = new Date('2015-11-11 10:30:00');
+
+  let reminders : Array<Date> = [reminder1];
+
+  let todo : AV.Object = new AV.Object('Todo');
+  todo.set('reminders',reminders);
+  todo.save<AV.Object>().then((todo)=>{
+    chai.assert.isNotNull(todo.id);
+    done();
+  },(error)=>{
+    if(error) throw error;
+    done();
+  })
 }
 
 function code_create_query_by_className(done){
@@ -129,11 +185,6 @@ function code_query_with_not_contains_keyword(done){
   query.notContainedIn('title',filterArray);
 }
 
-function code_query_array_contains_using_equalsTo(done){
-  let query: AV.Query= new AV.Query('Todo');
-  let reminderFilter: Array<Date> = [new Date('2015-11-11 08:30:00'),new Date('2015-11-11 09:30:00')];
-  query.equalTo('reminders',reminderFilter);
-}
 
 function code_query_whereHasPrefix(done){
   // 找出开头是「早餐」的 Todo
@@ -380,4 +431,10 @@ function code_query_geoPoint_within(done){
   let query : AV.Query = new AV.Query('Todo');
   let point : AV.GeoPoint = new AV.GeoPoint('39.9','116.4');
   query.withinKilometers('whereCreated',point,2.0);
+  query.find<AV.Object []>().then((results)=>{
+    // results 返回的就是有图片的 Todo 集合
+    let nearbyTodos : AV.Object [] = results;
+  },(error)=>{
+
+  });
 }

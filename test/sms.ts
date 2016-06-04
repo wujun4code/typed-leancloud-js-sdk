@@ -1,7 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
-/// <reference path="../index.d.ts"/>
 
-import * as AV from 'leancloud-jssdk'
+import * as AV from 'leancloud-jssdk';
 import * as chai from 'chai';
 
 AV.init({

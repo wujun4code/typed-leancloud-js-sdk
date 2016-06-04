@@ -1,7 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
-/// <reference path="../index.d.ts"/>
 
-import * as AV from 'leancloud-jssdk'
+import * as AV from 'leancloud-jssdk';
 import * as chai from 'chai';
 
 AV.init({
@@ -534,4 +533,20 @@ function code_data_protocol_save_date(done){
   let testAVObject = new AV.Object('TestClass');
   testAVObject.set('testDate', testDate);
   testAVObject.save();
+}
+
+function code_fetch_todo_by_objectId(done){
+  // 第一个参数是 className，第二个参数是 objectId
+  let todo : AV.Object = AV.Object.createWithoutData('Todo','5745557f71cfe40068c6abe0');
+  let title = todo.get('title');// 读取 title
+  let content = todo.get('content');// 读取 content
+}
+
+function code_update_todo_content_with_objectId(done){
+  // 第一个参数是 className，第二个参数是 objectId
+  let todo : AV.Object = AV.Object.createWithoutData('Todo','5745557f71cfe40068c6abe0');
+  // 修改属性
+  todo.set('content','每周工程师会议，本周改为周三下午3点半。');
+  // 保存到云端
+  todo.save();
 }
